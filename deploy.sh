@@ -87,7 +87,7 @@ if [ "$TARGET" == "test" ]; then
     read -p "Continue with TestPyPI upload? (y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        python -m twine upload --repository testpypi dist/*
+        python -m twine upload --repository testpypi dist/* --verbose
         if [ $? -eq 0 ]; then
             print_msg "✅ Successfully uploaded to TestPyPI!" "$GREEN"
             echo ""
