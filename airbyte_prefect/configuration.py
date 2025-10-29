@@ -4,7 +4,7 @@ from warnings import warn
 
 from prefect import get_run_logger, task
 
-from prefect_airbyte.server import AirbyteServer
+from airbyte_prefect.server import AirbyteServer
 
 
 @task
@@ -20,7 +20,7 @@ async def export_configuration(
     Prefect Task that exports an Airbyte configuration via
     `{airbyte_server_host}/api/v1/deployment/export`.
 
-    As of `prefect-airbyte==0.1.3`, the kwargs `airbyte_server_host` and
+    As of `airbyte-prefect==0.1.3`, the kwargs `airbyte_server_host` and
     `airbyte_server_port` can be replaced by passing an `airbyte_server` block
     instance to generate the `AirbyteClient`. Using the `airbyte_server` block is
     preferred, but the individual kwargs remain for backwards compatibility.
@@ -43,8 +43,8 @@ async def export_configuration(
         import gzip
 
         from prefect import flow, task
-        from prefect_airbyte.configuration import export_configuration
-        from prefect_airbyte.server import AirbyteServer
+        from airbyte_prefect.configuration import export_configuration
+        from airbyte_prefect.server import AirbyteServer
 
         @task
         def zip_and_write_somewhere(

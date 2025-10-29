@@ -8,17 +8,11 @@ from warnings import warn
 from prefect import get_run_logger, task
 from prefect.blocks.abstract import JobBlock, JobRun
 from prefect.utilities.asyncutils import sync_compatible
-from pydantic import VERSION as PYDANTIC_VERSION
-
-if PYDANTIC_VERSION.startswith("2."):
-    from pydantic.v1 import BaseModel, Field
-else:
-    from pydantic import BaseModel, Field
-
+from pydantic import BaseModel, Field
 from typing_extensions import Literal
 
-from prefect_airbyte import exceptions as err
-from prefect_airbyte.server import AirbyteServer
+from airbyte_prefect import exceptions as err
+from airbyte_prefect.server import AirbyteServer
 
 # Connection statuses
 CONNECTION_STATUS_ACTIVE = "active"
@@ -63,7 +57,7 @@ async def trigger_sync(
     will only complete when the sync has completed or
     when it receives an error status code from an API call.
 
-    As of `prefect-airbyte==0.1.3`, the kwargs `airbyte_server_host` and
+    As of `airbyte-prefect==0.1.3`, the kwargs `airbyte_server_host` and
     `airbyte_server_port` can be replaced by passing an `airbyte_server` block
     instance to generate the `AirbyteClient`. Using the `airbyte_server` block is
     preferred, but the individual kwargs remain for backwards compatibility.
@@ -88,8 +82,8 @@ async def trigger_sync(
         Flow that triggers an Airybte connection sync:
         ```python
         from prefect import flow
-        from prefect_airbyte.connections import trigger_sync
-        from prefect_airbyte.server import AirbyteServer
+        from airbyte_prefect.connections import trigger_sync
+        from airbyte_prefect.server import AirbyteServer
         @flow
         def example_trigger_sync_flow():
             # Run other tasks and subflows here
@@ -293,7 +287,7 @@ class AirbyteConnection(JobBlock):
     Examples:
         Load an existing `AirbyteConnection` block:
         ```python
-        from prefect_airbyte import AirbyteConnection
+        from airbyte_prefect import AirbyteConnection
 
         airbyte_connection = AirbyteConnection.load("BLOCK_NAME")
         ```
@@ -301,8 +295,8 @@ class AirbyteConnection(JobBlock):
         Run an Airbyte connection sync as a flow:
         ```python
         from prefect import flow
-        from prefect_airbyte import AirbyteConnection
-        from prefect_airbyte.flows import run_connection_sync # this is a flow
+        from airbyte_prefect import AirbyteConnection
+        from airbyte_prefect.flows import run_connection_sync # this is a flow
 
         airbyte_connection = AirbyteConnection.load("BLOCK_NAME")
 
@@ -314,7 +308,7 @@ class AirbyteConnection(JobBlock):
 
     _block_type_name = "Airbyte Connection"
     _logo_url = "https://cdn.sanity.io/images/3ugk85nk/production/7f50097d1915fe75b0ee84c951c742a83d3c53cb-250x250.png"  # noqa: E501
-    _documentation_url = "https://prefecthq.github.io/prefect-airbyte/connections/#prefect_airbyte.connections.AirbyteConnection"  # noqa
+    _documentation_url = "https://github.com/haybankz/airbyte-prefect#airbyteconnection"  # noqa
 
     airbyte_server: AirbyteServer = Field(
         default=...,

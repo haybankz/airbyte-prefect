@@ -1,8 +1,8 @@
 import pytest
 from prefect.logging import disable_run_logger
 
-from prefect_airbyte import exceptions as err
-from prefect_airbyte.connections import AirbyteConnection, trigger_sync
+from airbyte_prefect import exceptions as err
+from airbyte_prefect.connections import AirbyteConnection, trigger_sync
 
 
 async def example_trigger_sync_flow(connection_id, airbyte_server=None, **kwargs):

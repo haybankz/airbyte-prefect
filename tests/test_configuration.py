@@ -1,9 +1,9 @@
 import pytest
 from prefect.logging import disable_run_logger
 
-from prefect_airbyte import exceptions as err
-from prefect_airbyte.configuration import export_configuration
-from prefect_airbyte.exceptions import AirbyteExportConfigurationFailed
+from airbyte_prefect import exceptions as err
+from airbyte_prefect.configuration import export_configuration
+from airbyte_prefect.exceptions import AirbyteExportConfigurationFailed
 
 
 async def test_export_configuration(

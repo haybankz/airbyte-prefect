@@ -5,7 +5,7 @@ from warnings import warn
 
 import httpx
 
-from prefect_airbyte import exceptions as err
+from airbyte_prefect import exceptions as err
 
 
 class AirbyteClient:

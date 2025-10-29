@@ -3,8 +3,8 @@ import respx
 from httpx import Response
 from prefect.testing.utilities import prefect_test_harness
 
-from prefect_airbyte.connections import AirbyteConnection
-from prefect_airbyte.server import AirbyteServer
+from airbyte_prefect.connections import AirbyteConnection
+from airbyte_prefect.server import AirbyteServer
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -214,7 +214,6 @@ def base_airbyte_url():
     return "http://localhost:8000/api/v1"
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_successful_connection_sync_calls(
     respx_mock,
@@ -248,7 +247,6 @@ def mock_successful_connection_sync_calls(
     ).mock(return_value=Response(200, json=airbyte_get_good_job_status_response))
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_failed_connection_sync_calls(
     respx_mock,
@@ -278,7 +276,6 @@ def mock_failed_connection_sync_calls(
     ).mock(return_value=Response(200, json=airbyte_get_failed_job_status_response))
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_failed_health_check_calls(
     respx_mock, base_airbyte_url, airbyte_bad_health_check_response
@@ -288,7 +285,6 @@ def mock_failed_health_check_calls(
     )
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_bad_connection_id_calls(
     respx_mock,
@@ -307,7 +303,6 @@ def mock_bad_connection_id_calls(
     ).mock(return_value=Response(404, json=airbyte_get_connection_not_found))
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_invalid_job_status_calls(
     respx_mock,
@@ -338,7 +333,6 @@ def mock_invalid_job_status_calls(
     ).mock(return_value=Response(404, json=airbyte_job_status_not_found_response))
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_cancelled_connection_sync_calls(
     respx_mock,
@@ -374,7 +368,6 @@ def mock_cancelled_connection_sync_calls(
     ).mock(return_value=Response(200, json=airbyte_get_failed_job_status_response))
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_inactive_sync_calls(
     respx_mock,
@@ -399,7 +392,6 @@ def airbyte_good_export_configuration_response() -> bytes:
     return b""
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_successful_config_export_calls(
     respx_mock,
@@ -416,7 +408,6 @@ def mock_successful_config_export_calls(
     )
 
 
-@respx.mock(assert_all_called=True)
 @pytest.fixture
 def mock_config_endpoint_not_found(
     respx_mock,

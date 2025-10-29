@@ -3,14 +3,9 @@
 from logging import Logger
 
 from prefect.blocks.core import Block
-from pydantic import VERSION as PYDANTIC_VERSION
+from pydantic import Field, SecretStr
 
-if PYDANTIC_VERSION.startswith("2."):
-    from pydantic.v1 import Field, SecretStr
-else:
-    from pydantic import Field, SecretStr
-
-from prefect_airbyte.client import AirbyteClient
+from airbyte_prefect.client import AirbyteClient
 
 
 class AirbyteServer(Block):
@@ -26,7 +21,7 @@ class AirbyteServer(Block):
 
     Example:
         ```python
-        from prefect_airbyte.server import AirbyteServer
+        from airbyte_prefect.server import AirbyteServer
 
         server = AirbyteServer.load("BLOCK_NAME")
         ```
@@ -35,7 +30,7 @@ class AirbyteServer(Block):
     _block_type_name = "Airbyte Server"
     _block_type_slug = "airbyte-server"
     _logo_url = "https://cdn.sanity.io/images/3ugk85nk/production/7f50097d1915fe75b0ee84c951c742a83d3c53cb-250x250.png"  # noqa
-    _documentation_url = "https://prefecthq.github.io/prefect-airbyte/server/#prefect_airbyte.server.AirbyteServer"  # noqa
+    _documentation_url = "https://github.com/haybankz/airbyte-prefect#airbyteserver"  # noqa
 
     username: str = Field(
         default="airbyte",
@@ -50,7 +45,7 @@ class AirbyteServer(Block):
     server_host: str = Field(
         default="localhost",
         description="Host address of Airbyte server.",
-        example="127.0.0.1",
+        examples=["127.0.0.1"],
     )
 
     server_port: int = Field(

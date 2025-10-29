@@ -103,7 +103,7 @@ To publish to PyPI, you'll need a PyPI account and to generate an API token to a
 
 Once you've obtained a PyPI API token, [create a GitHub secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `PYPI_API_TOKEN`.
 
-To publish a new version of your collection, [create a new GitHub release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release) and tag it with the version that you want to deploy (e.g. v0.3.2). This will trigger a workflow to publish the new version on PyPI and deploy the updated docs to GitHub pages.
+To publish a new version of your collection, [create a new GitHub release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository#creating-a-release) and tag it with the version that you want to deploy (e.g. v0.0.1). This will trigger a workflow to publish the new version on PyPI and deploy the updated docs to GitHub pages.
 
 Upon publishing, a `docs` branch is automatically created. To hook this up to GitHub Pages, simply head over to https://github.com/PrefectHQ/prefect-airbyte/settings/pages, select `docs` under the dropdown menu, keep the default `/root` folder, `Save`, and upon refresh, you should see a prompt stating "Your site is published at https://PrefectHQ.github.io/prefect-airbyte". Don't forget to add this link to the repo's "About" section, under "Website" so users can access the docs easily.
 

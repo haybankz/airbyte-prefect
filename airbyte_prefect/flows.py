@@ -2,7 +2,7 @@
 
 from prefect import flow, task
 
-from prefect_airbyte.connections import AirbyteConnection, AirbyteSyncResult
+from airbyte_prefect.connections import AirbyteConnection, AirbyteSyncResult
 
 
 @flow
@@ -22,9 +22,9 @@ async def run_connection_sync(
         Define a flow that runs an Airbyte connection sync:
         ```python
         from prefect import flow
-        from prefect_airbyte.server import AirbyteServer
-        from prefect_airbyte.connections import AirbyteConnection
-        from prefect_airbyte.flows import run_connection_sync
+        from airbyte_prefect.server import AirbyteServer
+        from airbyte_prefect.connections import AirbyteConnection
+        from airbyte_prefect.flows import run_connection_sync
 
         airbyte_server = AirbyteServer(
             server_host="localhost",
@@ -49,13 +49,9 @@ async def run_connection_sync(
         ```
     """
 
-    # TODO: refactor block method calls to avoid using <sync_compatible_method>.aio
-    # we currently need to do this because of the deadlock caused by calling
-    # a sync task within an async flow
-    # see [this issue](https://github.com/PrefectHQ/prefect/issues/7551)
+    # In Prefect 3, we can directly await sync_compatible methods in async contexts
+    airbyte_sync = await airbyte_connection.trigger()
 
-    airbyte_sync = await task(airbyte_connection.trigger.aio)(airbyte_connection)
+    await airbyte_sync.wait_for_completion()
 
-    await task(airbyte_sync.wait_for_completion.aio)(airbyte_sync)
-
-    return await task(airbyte_sync.fetch_result.aio)(airbyte_sync)
+    return await airbyte_sync.fetch_result()

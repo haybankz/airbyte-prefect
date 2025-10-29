@@ -1,9 +1,9 @@
 import pytest
 from prefect import flow
 
-from prefect_airbyte.connections import AirbyteSyncResult
-from prefect_airbyte.exceptions import AirbyteSyncJobFailed
-from prefect_airbyte.flows import run_connection_sync
+from airbyte_prefect.connections import AirbyteSyncResult
+from airbyte_prefect.exceptions import AirbyteSyncJobFailed
+from airbyte_prefect.flows import run_connection_sync
 
 expected_airbyte_sync_result = AirbyteSyncResult(
     created_at=1650644844,
