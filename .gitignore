@@ -135,4 +135,5 @@ dmypy.json
 .vscode
 
 # Jupyter notebook
-*.ipynb
+*.ipynb# IDE files
+.idea/
