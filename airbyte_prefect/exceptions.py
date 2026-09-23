@@ -25,6 +25,12 @@ class AirbyteSyncJobFailed(Exception):
     """
 
 
+class AirbyteSyncJobTimeout(Exception):
+    """
+    Raises when an Airbyte Sync Job does not reach a terminal status in time.
+    """
+
+
 class AirbyteExportConfigurationFailed(Exception):
     """
     Raises when an Airbyte configuration export fails.

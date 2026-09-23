@@ -1,8 +1,8 @@
 import pytest
 from prefect import flow
 
-from airbyte_prefect.connections import AirbyteSyncResult
-from airbyte_prefect.exceptions import AirbyteSyncJobFailed
+from airbyte_prefect.connections import AirbyteConnection, AirbyteSyncResult
+from airbyte_prefect.exceptions import AirbyteSyncJobFailed, AirbyteSyncJobTimeout
 from airbyte_prefect.flows import run_connection_sync
 
 expected_airbyte_sync_result = AirbyteSyncResult(
@@ -70,3 +70,35 @@ async def test_run_connection_sync_subflow_asynchronously(
     result = await airbyte_sync_sync_flow()
 
     assert result == expected_airbyte_sync_result
+
+
+async def test_run_connection_sync_raises_on_incomplete_job(
+    airbyte_server, airbyte_connection, mock_incomplete_connection_sync_calls
+):
+    """An `incomplete` job is terminal and unsuccessful, not something to poll on."""
+    with pytest.raises(AirbyteSyncJobFailed, match="incomplete"):
+        await run_connection_sync(airbyte_connection=airbyte_connection)
+
+
+async def test_run_connection_sync_times_out_on_never_finishing_job(
+    airbyte_server,
+    connection_id,
+    mock_never_finishing_connection_sync_calls,
+):
+    """`max_wait_seconds` bounds a job that never reaches a terminal status."""
+    connection = AirbyteConnection(
+        airbyte_server=airbyte_server,
+        connection_id=connection_id,
+        poll_interval_s=1,
+        max_wait_seconds=1,
+    )
+
+    with pytest.raises(AirbyteSyncJobTimeout, match="did not reach a terminal status"):
+        await run_connection_sync(airbyte_connection=connection)
+
+
+async def test_run_connection_sync_waits_indefinitely_by_default(
+    airbyte_connection,
+):
+    """The bound is opt-in, so existing connections keep their old behaviour."""
+    assert airbyte_connection.max_wait_seconds is None
