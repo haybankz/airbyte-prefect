@@ -43,7 +43,17 @@ class AirbyteConnectionInactiveException(Exception):
     """
 
 
-class AirbyeConnectionDeprecatedException(Exception):
+class AirbyteConnectionDeprecatedException(Exception):
     """
     Raises when a specified Airbyte connection is deprecated.
+    """
+
+
+# Retained so `except` clauses written against the misspelled name keep working.
+AirbyeConnectionDeprecatedException = AirbyteConnectionDeprecatedException
+
+
+class AirbyteConnectionUnknownStatusException(Exception):
+    """
+    Raises when Airbyte reports a connection status this version does not know.
     """
