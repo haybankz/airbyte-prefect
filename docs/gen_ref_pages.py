@@ -78,8 +78,20 @@ def insert_blocks_catalog(generated_file):
 readme_path = Path("README.md")
 docs_index_path = Path("index.md")
 
+# Front matter so the home page carries its own <title> and description rather
+# than falling back to the bare site name.
+INDEX_FRONT_MATTER = """---
+title: Airbyte integration for Prefect 3
+description: >-
+  Prefect 3 tasks, flows and blocks for triggering Airbyte connection syncs and
+  waiting on their results.
+---
+
+"""
+
 with open(readme_path, "r") as readme:
     with mkdocs_gen_files.open(docs_index_path, "w") as generated_file:
+        generated_file.write(INDEX_FRONT_MATTER)
         for line in readme:
             if line.startswith("## Resources"):
                 insert_blocks_catalog(generated_file)

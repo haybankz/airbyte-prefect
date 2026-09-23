@@ -1,4 +1,8 @@
 site_name: airbyte-prefect
+site_description: >-
+  Prefect 3 tasks, flows and blocks for triggering Airbyte connection syncs and
+  waiting on their results. API reference for airbyte-prefect.
+site_author: Abeeb Oladele
 site_url: https://haybankz.github.io/airbyte-prefect
 repo_url: https://github.com/haybankz/airbyte-prefect
 edit_uri: edit/main/docs/

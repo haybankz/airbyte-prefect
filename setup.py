@@ -17,8 +17,19 @@ setup(
     license="Apache License 2.0",
     author="Abeeb Oladele",
     author_email="oladele2abeeb@gmail.com",
-    keywords="prefect airbyte data integration",
+    keywords=(
+        "prefect airbyte data integration elt etl orchestration data-engineering "
+        "data-pipeline workflow"
+    ),
     url="https://github.com/haybankz/airbyte-prefect",
+    project_urls={
+        "Documentation": "https://haybankz.github.io/airbyte-prefect",
+        "Source": "https://github.com/haybankz/airbyte-prefect",
+        "Changelog": (
+            "https://github.com/haybankz/airbyte-prefect/blob/main/CHANGELOG.md"
+        ),
+        "Issue Tracker": "https://github.com/haybankz/airbyte-prefect/issues",
+    },
     long_description=readme,
     long_description_content_type="text/markdown",
     version=versioneer.get_version(),
@@ -28,14 +39,18 @@ setup(
     install_requires=install_requires,
     extras_require={"dev": dev_requires},
     classifiers=[
+        "Development Status :: 5 - Production/Stable",
         "Natural Language :: English",
         "Intended Audience :: Developers",
         "Intended Audience :: System Administrators",
         "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Topic :: Software Development :: Libraries",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: System :: Distributed Computing",
     ],
 )
