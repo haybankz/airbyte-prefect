@@ -2,7 +2,11 @@ import pytest
 from prefect import flow
 
 from airbyte_prefect.connections import AirbyteConnection, AirbyteSyncResult
-from airbyte_prefect.exceptions import AirbyteSyncJobFailed, AirbyteSyncJobTimeout
+from airbyte_prefect.exceptions import (
+    AirbyteConnectionUnknownStatusException,
+    AirbyteSyncJobFailed,
+    AirbyteSyncJobTimeout,
+)
 from airbyte_prefect.flows import run_connection_sync
 
 expected_airbyte_sync_result = AirbyteSyncResult(
@@ -102,3 +106,19 @@ async def test_run_connection_sync_waits_indefinitely_by_default(
 ):
     """The bound is opt-in, so existing connections keep their old behaviour."""
     assert airbyte_connection.max_wait_seconds is None
+
+
+async def test_run_connection_sync_on_an_unknown_connection_status(
+    airbyte_server, connection_id, mock_unknown_status_sync_calls
+):
+    """The flow must surface the status error, not an AttributeError.
+
+    `trigger()` previously fell through every branch and returned `None`, so the
+    next line raised `'NoneType' object has no attribute 'wait_for_completion'`.
+    """
+    connection = AirbyteConnection(
+        airbyte_server=airbyte_server, connection_id=connection_id
+    )
+
+    with pytest.raises(AirbyteConnectionUnknownStatusException):
+        await run_connection_sync(airbyte_connection=connection)
