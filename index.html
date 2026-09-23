@@ -1,0 +1,1299 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://haybankz.github.io/airbyte-prefect/">
+      
+      
+      
+        <link rel="next" href="client/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="img/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>airbyte-prefect</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#airbyte-prefect" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="airbyte-prefect" class="md-header__button md-logo" aria-label="airbyte-prefect" data-md-component="logo">
+      
+  <img src="img/prefect-logo-mark-solid-white-500.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            airbyte-prefect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/haybankz/airbyte-prefect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="airbyte-prefect" class="md-nav__button md-logo" aria-label="airbyte-prefect" data-md-component="logo">
+      
+  <img src="img/prefect-logo-mark-solid-white-500.png" alt="logo">
+
+    </a>
+    airbyte-prefect
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/haybankz/airbyte-prefect" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#welcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Welcome!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#airbyte-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Airbyte setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-airbyteserver-block-and-save-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create an AirbyteServer block and save it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger-a-defined-connection-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trigger a defined connection sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-an-airbyte-instances-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export an Airbyte instance's configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-with_options-to-customize-options-on-any-existing-task-or-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use with_options to customize options on any existing task or flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blocks-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blocks Catalog
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blocks Catalog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#server-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connections-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connections Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#acknowledgements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acknowledgements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contribute
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contribution-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contribution Steps:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="connections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="exceptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exceptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="flows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#welcome" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Welcome!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting Started
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#airbyte-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Airbyte setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-an-airbyteserver-block-and-save-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create an AirbyteServer block and save it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger-a-defined-connection-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trigger a defined connection sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-an-airbyte-instances-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export an Airbyte instance's configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-with_options-to-customize-options-on-any-existing-task-or-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use with_options to customize options on any existing task or flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#blocks-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Blocks Catalog
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Blocks Catalog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#server-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connections-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connections Module
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#acknowledgements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Acknowledgements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contribute
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contribution-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contribution Steps:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="airbyte-prefect">airbyte-prefect</h1>
+<p align="center">
+    <a href="https://pypi.python.org/pypi/airbyte-prefect/" alt="PyPI version">
+        <img alt="PyPI" src="https://img.shields.io/pypi/v/airbyte-prefect?color=0052FF&labelColor=090422"></a>
+    <a href="https://github.com/haybankz/airbyte-prefect/" alt="Downloads per month">
+        <img src="https://static.pepy.tech/badge/airbyte-prefect/month" /></a>
+    <a href="https://pepy.tech/badge/airbyte-prefect/" alt="Total downloads">
+        <img src="https://static.pepy.tech/badge/airbyte-prefect" /></a>
+</p>
+
+<h2 id="welcome">Welcome!</h2>
+<p><code>airbyte-prefect</code> is a collection of prebuilt Prefect tasks and flows that can be used to quickly construct Prefect flows to interact with <a href="https://airbyte.io/">Airbyte</a>.</p>
+<blockquote>
+<p><strong>Note:</strong> <code>airbyte-prefect</code> is a port of <a href="https://github.com/PrefectHQ/prefect-airbyte"><code>prefect-airbyte</code></a>,
+the original Prefect 2 collection by <a href="https://github.com/PrefectHQ">PrefectHQ</a>, updated to work with
+Prefect 3. Credit for the original design and implementation goes to its authors and contributors.</p>
+</blockquote>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="python-setup">Python setup</h3>
+<p>Requires an installation of Python 3.10+</p>
+<p>We recommend using a Python virtual environment manager such as pipenv, conda or virtualenv.</p>
+<p>These tasks are designed to work with Prefect 3.2+. For more information about how to use Prefect, please refer to the <a href="https://docs.prefect.io/">Prefect documentation</a>.</p>
+<h3 id="airbyte-setup">Airbyte setup</h3>
+<p>See <a href="https://docs.airbyte.com/deploying-airbyte">the airbyte documention</a> on how to get your own instance.</p>
+<h3 id="installation">Installation</h3>
+<p>Install <code>airbyte-prefect</code></p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>airbyte-prefect
+</code></pre></div>
+<p>For available blocks and their setup instructions, see the documentation in this repository.</p>
+<h3 id="examples">Examples</h3>
+<h4 id="create-an-airbyteserver-block-and-save-it">Create an <code>AirbyteServer</code> block and save it</h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirbyteServer</span>
+
+<span class="c1"># running airbyte locally at http://localhost:8000 with default auth</span>
+<span class="n">local_airbyte_server</span> <span class="o">=</span> <span class="n">AirbyteServer</span><span class="p">()</span>
+
+<span class="c1"># running airbyte remotely at http://&lt;someIP&gt;:&lt;somePort&gt; as user `Marvin`</span>
+<span class="n">remote_airbyte_server</span> <span class="o">=</span> <span class="n">AirbyteServer</span><span class="p">(</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">"Marvin"</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">"DontPanic42"</span><span class="p">,</span>
+    <span class="n">server_host</span><span class="o">=</span><span class="s2">"42.42.42.42"</span><span class="p">,</span>
+    <span class="n">server_port</span><span class="o">=</span><span class="s2">"4242"</span>
+<span class="p">)</span>
+
+<span class="n">local_airbyte_server</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"my-local-airbyte-server"</span><span class="p">)</span>
+
+<span class="n">remote_airbyte_server</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"my-remote-airbyte-server"</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="trigger-a-defined-connection-sync">Trigger a defined connection sync</h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">prefect</span><span class="w"> </span><span class="kn">import</span> <span class="n">flow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirbyteServer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.connections</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirbyteConnection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.flows</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_connection_sync</span>
+
+<span class="n">server</span> <span class="o">=</span> <span class="n">AirbyteServer</span><span class="p">(</span><span class="n">server_host</span><span class="o">=</span><span class="s2">"localhost"</span><span class="p">,</span> <span class="n">server_port</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">AirbyteConnection</span><span class="p">(</span>
+    <span class="n">airbyte_server</span><span class="o">=</span><span class="n">server</span><span class="p">,</span>
+    <span class="n">connection_id</span><span class="o">=</span><span class="s2">"e1b2078f-882a-4f50-9942-cfe34b2d825b"</span><span class="p">,</span>
+    <span class="n">status_updates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nd">@flow</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">airbyte_syncs</span><span class="p">():</span>
+    <span class="c1"># do some setup</span>
+
+    <span class="n">sync_result</span> <span class="o">=</span> <span class="n">run_connection_sync</span><span class="p">(</span>
+        <span class="n">airbyte_connection</span><span class="o">=</span><span class="n">connection</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># do some other things, like trigger DBT based on number of records synced</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Number of Records Synced: </span><span class="si">{</span><span class="n">sync_result</span><span class="o">.</span><span class="n">records_synced</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="gp">❯ </span>python<span class="w"> </span>airbyte_syncs.py
+<span class="go">03:46:03 | prefect.engine - Created flow run 'thick-seahorse' for flow 'example_trigger_sync_flow'</span>
+<span class="go">03:46:03 | Flow run 'thick-seahorse' - Using task runner 'ConcurrentTaskRunner'</span>
+<span class="go">03:46:03 | Flow run 'thick-seahorse' - Created task run 'trigger_sync-35f0e9c2-0' for task 'trigger_sync'</span>
+<span class="go">03:46:03 | prefect - trigger airbyte connection: e1b2078f-882a-4f50-9942-cfe34b2d825b, poll interval 3 seconds</span>
+<span class="go">03:46:03 | prefect - pending</span>
+<span class="go">03:46:06 | prefect - running</span>
+<span class="go">03:46:09 | prefect - running</span>
+<span class="go">03:46:12 | prefect - running</span>
+<span class="go">03:46:16 | prefect - running</span>
+<span class="go">03:46:19 | prefect - running</span>
+<span class="go">03:46:22 | prefect - Job 26 succeeded.</span>
+<span class="go">03:46:22 | Task run 'trigger_sync-35f0e9c2-0' - Finished in state Completed(None)</span>
+<span class="go">03:46:22 | Flow run 'thick-seahorse' - Finished in state Completed('All states completed.')</span>
+</code></pre></div>
+<h4 id="export-an-airbyte-instances-configuration">Export an Airbyte instance's configuration</h4>
+<p><strong>NOTE</strong>: The API endpoint corresponding to this task is no longer supported by open-source Airbyte versions as of v0.40.7. Check out the <a href="https://github.com/airbytehq/airbyte/tree/master/octavia-cli">Octavia CLI docs</a> for more info.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">prefect</span><span class="w"> </span><span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_configuration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirbyteServer</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">zip_and_write_somewhere</span><span class="p">(</span>
+      <span class="n">airbyte_config</span><span class="p">:</span> <span class="nb">bytearray</span><span class="p">,</span>
+      <span class="n">somewhere</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">somewhere</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">airbyte_config</span><span class="p">)</span>
+
+<span class="nd">@flow</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">example_export_configuration_flow</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+    <span class="c1"># Run other tasks and subflows here</span>
+
+    <span class="n">airbyte_config</span> <span class="o">=</span> <span class="n">export_configuration</span><span class="p">(</span>
+        <span class="n">airbyte_server</span><span class="o">=</span><span class="n">AirbyteServer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"my-airbyte-server-block"</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">zip_and_write_somewhere</span><span class="p">(</span>
+        <span class="n">somewhere</span><span class="o">=</span><span class="n">filepath</span><span class="p">,</span>
+        <span class="n">airbyte_config</span><span class="o">=</span><span class="n">airbyte_config</span>
+    <span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">example_export_configuration_flow</span><span class="p">(</span><span class="s1">'*://**/my_destination.gz'</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="use-with_options-to-customize-options-on-any-existing-task-or-flow">Use <code>with_options</code> to customize options on any existing task or flow</h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">prefect</span><span class="w"> </span><span class="kn">import</span> <span class="n">flow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.connections</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirbyteConnection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.flows</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_connection_sync</span>
+
+<span class="n">custom_run_connection_sync</span> <span class="o">=</span> <span class="n">run_connection_sync</span><span class="o">.</span><span class="n">with_options</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"Custom Airbyte Sync Flow"</span><span class="p">,</span>
+    <span class="n">retries</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">retry_delay_seconds</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span>
+
+ <span class="nd">@flow</span>
+ <span class="k">def</span><span class="w"> </span><span class="nf">some_airbyte_flow</span><span class="p">():</span>
+    <span class="n">custom_run_connection_sync</span><span class="p">(</span>
+        <span class="n">airbyte_connection</span><span class="o">=</span><span class="n">AirbyteConnection</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"my-airbyte-connection-block"</span><span class="p">)</span>
+    <span class="p">)</span>
+
+ <span class="n">some_airbyte_flow</span><span class="p">()</span>
+</code></pre></div>
+<p>For more tips on how to use tasks and flows in a Collection, check out <a href="https://orion-docs.prefect.io/collections/usage/">Using Collections</a>!</p>
+<h2 id="blocks-catalog">Blocks Catalog</h2>
+<p>Below is a list of Blocks available for registration in
+<code>airbyte-prefect</code>.</p>
+<p>To register blocks in this module to
+<a href="https://orion-docs.prefect.io/ui/blocks/">view and edit them</a>
+on Prefect Cloud:
+<div class="highlight"><pre><span></span><code>prefect<span class="w"> </span>block<span class="w"> </span>register<span class="w"> </span>-m<span class="w"> </span>airbyte_prefect
+</code></pre></div>
+Note, to use the <code>load</code> method on Blocks, you must already have a block document <a href="https://orion-docs.prefect.io/concepts/blocks/#saving-blocks">saved through code</a> or <a href="https://orion-docs.prefect.io/ui/blocks/">saved through the UI</a>.</p>
+<h3 id="server-module">Server Module</h3>
+<p><strong><a class="autorefs autorefs-internal" href="server/#airbyte_prefect.server.AirbyteServer">AirbyteServer</a></strong></p>
+<p>To load the AirbyteServer:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">prefect</span><span class="w"> </span><span class="kn">import</span> <span class="n">flow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirbyteServer</span>
+
+<span class="nd">@flow</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_flow</span><span class="p">():</span>
+    <span class="n">my_block</span> <span class="o">=</span> <span class="n">AirbyteServer</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"MY_BLOCK_NAME"</span><span class="p">)</span>
+
+<span class="n">my_flow</span><span class="p">()</span>
+</code></pre></div></p>
+<h3 id="connections-module">Connections Module</h3>
+<p><strong><a class="autorefs autorefs-internal" href="connections/#airbyte_prefect.connections.AirbyteConnection">AirbyteConnection</a></strong></p>
+<p>To load the AirbyteConnection:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">prefect</span><span class="w"> </span><span class="kn">import</span> <span class="n">flow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">airbyte_prefect.connections</span><span class="w"> </span><span class="kn">import</span> <span class="n">AirbyteConnection</span>
+
+<span class="nd">@flow</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_flow</span><span class="p">():</span>
+    <span class="n">my_block</span> <span class="o">=</span> <span class="n">AirbyteConnection</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"MY_BLOCK_NAME"</span><span class="p">)</span>
+
+<span class="n">my_flow</span><span class="p">()</span>
+</code></pre></div></p>
+<h2 id="resources">Resources</h2>
+<p>If you encounter and bugs while using <code>airbyte-prefect</code>, feel free to open an issue in the <a href="https://github.com/haybankz/airbyte-prefect">airbyte-prefect</a> repository.</p>
+<p>If you have any questions or issues while using <code>airbyte-prefect</code>, you can find help in either the <a href="https://discourse.prefect.io/">Prefect Discourse forum</a> or the <a href="https://prefect.io/slack">Prefect Slack community</a></p>
+<p>Feel free to star or watch <a href="https://github.com/haybankz/airbyte-prefect"><code>airbyte-prefect</code></a> for updates too!</p>
+<h3 id="acknowledgements">Acknowledgements</h3>
+<p>This project is derived from <a href="https://github.com/PrefectHQ/prefect-airbyte"><code>prefect-airbyte</code></a> by PrefectHQ,
+released under the Apache 2.0 License.</p>
+<h2 id="contribute">Contribute</h2>
+<p>If you'd like to help contribute to fix an issue or add a feature to <code>airbyte-prefect</code>, please <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork">propose changes through a pull request from a fork of the repository</a>.</p>
+<h3 id="contribution-steps">Contribution Steps:</h3>
+<ol>
+<li><a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#forking-a-repository">Fork the repository</a></li>
+<li><a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository">Clone the forked repository</a></li>
+<li>Install the repository and its dependencies:
+<div class="highlight"><pre><span></span><code>pip install -e ".[dev]"
+</code></pre></div></li>
+<li>Make desired changes.</li>
+<li>Add tests.</li>
+<li>Insert an entry to <a href="https://github.com/haybankz/airbyte-prefect/blob/main/CHANGELOG.md">CHANGELOG.md</a></li>
+<li>Install <code>pre-commit</code> to perform quality checks prior to commit:
+<code>pre-commit install</code></li>
+<li><code>git commit</code>, <code>git push</code>, and create a pull request.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.prefect.io/slack/" target="_blank" rel="noopener" title="www.prefect.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M94.1 315.1c0 25.9-21.2 47.1-47.1 47.1S0 341 0 315.1 21.2 268 47.1 268h47.1v47.1zm23.7 0c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1v117.8c0 25.9-21.2 47.1-47.1 47.1s-47.1-21.2-47.1-47.1zm47.1-189c-25.9 0-47.1-21.2-47.1-47.1s21.2-47 47.1-47S212 53.2 212 79.1v47.1h-47.1zm0 23.7c25.9 0 47.1 21.2 47.1 47.1S190.8 244 164.9 244H47.1C21.2 244 0 222.8 0 196.9s21.2-47.1 47.1-47.1zm189 47.1c0-25.9 21.2-47.1 47.1-47.1s47 21.2 47 47.1-21.2 47.1-47.1 47.1h-47.1v-47.1zm-23.7 0c0 25.9-21.2 47.1-47.1 47.1S236 222.8 236 196.9V79.1c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1zm-47.1 189c25.9 0 47.1 21.2 47.1 47.1s-21.2 47-47.1 47-47.1-21.2-47.1-47.1v-47.1h47.1zm0-23.7c-25.9 0-47.1-21.2-47.1-47.1s21.2-47.1 47.1-47.1h117.8c25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://discourse.prefect.io/" target="_blank" rel="noopener" title="discourse.prefect.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.youtube.com/c/PrefectIO/videos" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://prefect.io/guide/" target="_blank" rel="noopener" title="prefect.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M168 80c-13.3 0-24 10.7-24 24v304c0 8.4-1.4 16.5-4.1 24H440c13.3 0 24-10.7 24-24V104c0-13.3-10.7-24-24-24zM72 480c-39.8 0-72-32.2-72-72V112c0-13.3 10.7-24 24-24s24 10.7 24 24v296c0 13.3 10.7 24 24 24s24-10.7 24-24V104c0-39.8 32.2-72 72-72h272c39.8 0 72 32.2 72 72v304c0 39.8-32.2 72-72 72zm120-328c0-13.3 10.7-24 24-24h48c13.3 0 24 10.7 24 24v48c0 13.3-10.7 24-24 24h-48c-13.3 0-24-10.7-24-24zm152 24h48c13.3 0 24 10.7 24 24s-10.7 24-24 24h-48c-13.3 0-24-10.7-24-24s10.7-24 24-24m-128 80h176c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24m0 80h176c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/PrefectIO" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/company/prefect/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/PrefectHQ/prefect" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://hub.docker.com/r/prefecthq/prefect/" target="_blank" rel="noopener" title="hub.docker.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/prefect/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": [], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
