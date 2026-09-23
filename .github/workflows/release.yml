@@ -11,11 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: "3.10"
 
       - name: Install packages
         run: |
@@ -27,7 +29,7 @@ jobs:
           python -m build --sdist --wheel --outdir dist/
 
       - name: Publish build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: built-package
           path: "./dist"
@@ -37,6 +39,8 @@ jobs:
     needs: [build-release]
     environment: "prod"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
 
     steps:
       - name: Download build artifacts
@@ -48,24 +52,33 @@ jobs:
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
 
   build-and-publish-docs:
     name: Build and publish docs
     needs: [build-release, publish-release]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+          cache-dependency-path: requirements*.txt
 
       - name: Build docs
         run: |
           python -m pip install --upgrade pip
           python -m pip install --upgrade --upgrade-strategy eager -e .[dev]
           mkdocs build
+
       - name: Publish docs
-        uses: JamesIves/github-pages-deploy-action@v4.4.3
+        uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           branch: docs
           folder: site
