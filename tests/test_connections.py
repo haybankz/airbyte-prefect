@@ -233,3 +233,23 @@ def test_job_status_renders_as_a_plain_string():
     assert str(result.job_status) == "succeeded"
     assert result.job_status == "succeeded"
     assert result.model_dump(mode="json")["job_status"] == "succeeded"
+
+
+async def test_wait_for_completion_when_the_first_poll_has_no_attempts(
+    mock_sync_calls_with_attempts_appearing_late, airbyte_server, connection_id
+):
+    """Polling starts before Airbyte records an attempt; that is 0 records, not a crash.
+
+    The first `jobs/get` answers with an empty `attempts` list, the second with a
+    finished job, so the loop reads both shapes in one run.
+    """
+    connection = AirbyteConnection(
+        airbyte_server=airbyte_server,
+        connection_id=connection_id,
+        poll_interval_s=0,
+    )
+
+    sync = await connection.trigger()
+    await sync.wait_for_completion()
+
+    assert sync._records_synced == 17

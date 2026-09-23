@@ -27,6 +27,9 @@ project's history.
 - `AirbyteSync.fetch_result()` no longer raises a `ValidationError` for a job that is
   `running` or that finished `incomplete`. `JobRun` permits calling it without
   `wait_for_completion()` first, and both statuses were missing from the result model - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
+- `AirbyteSync.wait_for_completion()` no longer raises `IndexError` when Airbyte has not
+  recorded an attempt for the job yet. The first poll fires immediately after the
+  trigger, when `attempts` can still be empty - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
 - `AirbyteSync.fetch_result()` reports the record count from the job payload it fetches,
   rather than from state that only `wait_for_completion()` populates. Called on its own
   it previously reported `0` regardless of what the job had moved - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
