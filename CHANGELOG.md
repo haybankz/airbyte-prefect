@@ -11,8 +11,18 @@ project's history.
 
 ## Unreleased
 
+### Added
+
+- `max_wait_seconds` on `AirbyteConnection` and on the `trigger_sync` task, bounding how
+  long a sync is polled before `AirbyteSyncJobTimeout` is raised. Defaults to `None`,
+  which waits indefinitely as before - [#16](https://github.com/haybankz/airbyte-prefect/pull/16)
+
 ### Fixed
 
+- Syncs no longer poll forever when an Airbyte job ends `incomplete`. That status is
+  terminal but was absent from `terminal_job_statuses`, so the poll loop never exited.
+  It is now treated as an unsuccessful terminal status and raises
+  `AirbyteSyncJobFailed`, alongside `cancelled` and `failed` - [#16](https://github.com/haybankz/airbyte-prefect/pull/16)
 - Block logos in the Prefect UI. Both `AirbyteServer` and `AirbyteConnection` pointed
   `_logo_url` at an image on Prefect's CDN that now returns `402 Payment Required`, so
   the blocks rendered without a logo - [#1](https://github.com/haybankz/airbyte-prefect/pull/1)
