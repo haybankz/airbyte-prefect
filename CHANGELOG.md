@@ -15,6 +15,8 @@ project's history.
 
 - `JobStatus`, an enum of the statuses Airbyte reports for a sync job. The
   `JOB_STATUS_*` names remain as aliases - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
+- Published API reference at <https://haybankz.github.io/airbyte-prefect>, built from the
+  docstrings in this repository, linked from the README - [#19](https://github.com/haybankz/airbyte-prefect/pull/19)
 
 ### Changed
 
