@@ -1,1 +1,1 @@
-::: prefect_airbyte.server
+::: airbyte_prefect.server

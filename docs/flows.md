@@ -1,1 +1,1 @@
-::: prefect_airbyte.flows
+::: airbyte_prefect.flows

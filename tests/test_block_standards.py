@@ -10,7 +10,7 @@ def find_module_blocks():
     module_blocks = [
         block
         for block in blocks.values()
-        if to_qualified_name(block).startswith("prefect_airbyte")
+        if to_qualified_name(block).startswith("airbyte_prefect")
     ]
     return module_blocks
 

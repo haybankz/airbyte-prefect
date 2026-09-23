@@ -11,7 +11,9 @@ from prefect.blocks.core import Block
 from prefect.utilities.dispatch import get_registry_for_type
 from prefect.utilities.importtools import to_qualified_name
 
-COLLECTION_SLUG = "prefect_airbyte"
+import airbyte_prefect  # noqa: F401  imported so its Blocks register themselves
+
+COLLECTION_SLUG = "airbyte_prefect"
 
 
 def find_module_blocks():
@@ -36,7 +38,7 @@ def insert_blocks_catalog(generated_file):
     generated_file.write("## Blocks Catalog\n")
     generated_file.write(dedent(f"""
             Below is a list of Blocks available for registration in
-            `prefect-airbyte`.
+            `airbyte-prefect`.
 
             To register blocks in this module to
             [view and edit them](https://orion-docs.prefect.io/ui/blocks/)

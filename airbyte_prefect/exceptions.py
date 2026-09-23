@@ -1,4 +1,4 @@
-"""Exceptions to raise indicating issues throughout prefect_airbyte"""
+"""Exceptions to raise indicating issues throughout airbyte_prefect"""
 
 
 class ConnectionNotFoundException(Exception):
