@@ -113,3 +113,28 @@ async def test_airbyte_connection_instantiation(airbyte_server, connection_id):
     assert isinstance(connection, AirbyteConnection)
     assert connection.airbyte_server == airbyte_server
     assert str(connection.connection_id) == connection_id
+
+
+async def test_incomplete_trigger_sync(
+    mock_incomplete_connection_sync_calls, airbyte_server, connection_id
+):
+    """An `incomplete` job is terminal and unsuccessful, not something to poll on."""
+    with pytest.raises(err.AirbyteSyncJobFailed, match="incomplete"):
+        await example_trigger_sync_flow(
+            airbyte_server=airbyte_server, connection_id=connection_id
+        )
+
+
+async def test_trigger_sync_times_out_on_never_finishing_job(
+    mock_never_finishing_connection_sync_calls, airbyte_server, connection_id
+):
+    """`max_wait_seconds` bounds a job that never reaches a terminal status."""
+    with pytest.raises(
+        err.AirbyteSyncJobTimeout, match="did not reach a terminal status"
+    ):
+        await example_trigger_sync_flow(
+            airbyte_server=airbyte_server,
+            connection_id=connection_id,
+            poll_interval_s=1,
+            max_wait_seconds=1,
+        )

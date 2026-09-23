@@ -3,6 +3,7 @@
 import uuid
 from asyncio import sleep
 from datetime import datetime
+from time import monotonic
 from typing import Any, Dict, Optional
 from warnings import warn
 
@@ -23,13 +24,25 @@ CONNECTION_STATUS_DEPRECATED = "deprecated"
 # Job statuses
 JOB_STATUS_CANCELLED = "cancelled"
 JOB_STATUS_FAILED = "failed"
+JOB_STATUS_INCOMPLETE = "incomplete"
 JOB_STATUS_PENDING = "pending"
+JOB_STATUS_RUNNING = "running"
 JOB_STATUS_SUCCEEDED = "succeeded"
 
+# Statuses Airbyte will not move a job out of. `incomplete` is terminal: the job
+# finished, but at least one attempt did not succeed.
 terminal_job_statuses = {
     JOB_STATUS_CANCELLED,
     JOB_STATUS_FAILED,
+    JOB_STATUS_INCOMPLETE,
     JOB_STATUS_SUCCEEDED,
+}
+
+# Terminal statuses that mean the sync did not succeed.
+unsuccessful_job_statuses = {
+    JOB_STATUS_CANCELLED,
+    JOB_STATUS_FAILED,
+    JOB_STATUS_INCOMPLETE,
 }
 
 
@@ -43,6 +56,7 @@ async def trigger_sync(
     poll_interval_s: int = 15,
     status_updates: bool = False,
     timeout: int = 5,
+    max_wait_seconds: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Prefect Task for triggering an Airbyte connection sync.
 
@@ -72,9 +86,14 @@ async def trigger_sync(
         poll_interval_s: How often to poll Airbyte for sync status.
         status_updates: Whether to log sync job status while polling.
         timeout: The POST request `timeout` for the `httpx.AsyncClient`.
+        max_wait_seconds: Maximum time to wait for the sync job to reach a
+            terminal status. `None`, the default, waits indefinitely.
     Raises:
         ValueError: If `connection_id` is not a valid UUID.
-        AirbyteSyncJobFailed: If airbyte returns `JOB_STATUS_FAILED`.
+        AirbyteSyncJobFailed: If the sync job ends `failed`, `cancelled` or
+            `incomplete`.
+        AirbyteSyncJobTimeout: If `max_wait_seconds` elapses before the job
+            reaches a terminal status.
         AirbyteConnectionInactiveException: If a given connection is inactive.
         AirbyeConnectionDeprecatedException: If a given connection is deprecated.
     Returns:
@@ -148,8 +167,17 @@ async def trigger_sync(
             ) = await airbyte_client.trigger_manual_sync_connection(connection_id)
 
             job_status = JOB_STATUS_PENDING
+            deadline = (
+                None if max_wait_seconds is None else monotonic() + max_wait_seconds
+            )
 
             while job_status not in terminal_job_statuses:
+                if deadline is not None and monotonic() >= deadline:
+                    raise err.AirbyteSyncJobTimeout(
+                        f"Job {job_id} did not reach a terminal status within "
+                        f"{max_wait_seconds} seconds. Last status: {job_status}."
+                    )
+
                 (
                     job_status,
                     job_created_at,
@@ -159,7 +187,7 @@ async def trigger_sync(
                 # pending┃running┃incomplete┃failed┃succeeded┃cancelled
                 if job_status == JOB_STATUS_SUCCEEDED:
                     logger.info(f"Job {job_id} succeeded.")
-                elif job_status in [JOB_STATUS_FAILED, JOB_STATUS_CANCELLED]:
+                elif job_status in unsuccessful_job_statuses:
                     logger.error(f"Job {job_id} {job_status}.")
                     raise err.AirbyteSyncJobFailed(f"Job {job_id} {job_status}.")
                 else:
@@ -216,7 +244,10 @@ class AirbyteSync(JobRun):
         """Wait for the `AirbyteConnection` sync to reach a terminal state.
 
         Raises:
-            AirbyteSyncJobFailed: If the sync job fails.
+            AirbyteSyncJobFailed: If the sync job ends `failed`, `cancelled` or
+                `incomplete`.
+            AirbyteSyncJobTimeout: If the connection's `max_wait_seconds` elapses
+                before the job reaches a terminal status.
         """
         async with self.airbyte_connection.airbyte_server.get_client(
             logger=self.airbyte_connection.logger,
@@ -224,8 +255,18 @@ class AirbyteSync(JobRun):
         ) as airbyte_client:
 
             job_status = JOB_STATUS_PENDING
+            max_wait_seconds = self.airbyte_connection.max_wait_seconds
+            deadline = (
+                None if max_wait_seconds is None else monotonic() + max_wait_seconds
+            )
 
             while job_status not in terminal_job_statuses:
+                if deadline is not None and monotonic() >= deadline:
+                    raise err.AirbyteSyncJobTimeout(
+                        f"Job {self.job_id} did not reach a terminal status within "
+                        f"{max_wait_seconds} seconds. Last status: {job_status}."
+                    )
+
                 job_info = await airbyte_client.get_job_info(self.job_id)
 
                 job_status = job_info["job"]["status"]
@@ -234,10 +275,10 @@ class AirbyteSync(JobRun):
                     "recordsSynced", 0
                 )
 
-                # pending┃running┃failed┃succeeded┃cancelled
+                # pending┃running┃incomplete┃failed┃succeeded┃cancelled
                 if job_status == JOB_STATUS_SUCCEEDED:
                     self.logger.info(f"Job {self.job_id} succeeded.")
-                elif job_status in [JOB_STATUS_FAILED, JOB_STATUS_CANCELLED]:
+                elif job_status in unsuccessful_job_statuses:
                     self.logger.error(f"Job {self.job_id} {job_status}.")
                     raise err.AirbyteSyncJobFailed(f"Job {self.job_id} {job_status}.")
                 else:
@@ -282,6 +323,8 @@ class AirbyteConnection(JobBlock):
         poll_interval_s: Time in seconds between status checks of the Airbyte sync job.
         status_updates: Whether to log job status on each poll of the Airbyte sync job.
         timeout: Timeout in seconds for requests made by `httpx.AsyncClient`.
+        max_wait_seconds: Maximum time in seconds to wait for a sync job to reach a
+            terminal status. Leave unset to wait indefinitely.
 
     Examples:
         Load an existing `AirbyteConnection` block:
@@ -337,6 +380,14 @@ class AirbyteConnection(JobBlock):
     timeout: int = Field(
         default=5,
         description="Timeout in seconds for requests made by httpx.AsyncClient.",
+    )
+
+    max_wait_seconds: Optional[int] = Field(
+        default=None,
+        description=(
+            "Maximum time in seconds to wait for a sync job to reach a terminal "
+            "status. Leave unset to wait indefinitely."
+        ),
     )
 
     @sync_compatible

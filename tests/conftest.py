@@ -211,6 +211,27 @@ def airbyte_get_failed_job_status_response(airbyte_base_job_status_response) -> 
 
 
 @pytest.fixture
+def airbyte_get_incomplete_job_status_response(
+    airbyte_base_job_status_response,
+) -> dict:
+    airbyte_base_job_status_response["job"]["status"] = "incomplete"
+    airbyte_base_job_status_response["attempts"].append(
+        {
+            "attempt": {
+                "id": 0,
+                "status": "failed",
+                "createdAt": 0,
+                "updatedAt": 0,
+                "endedAt": 0,
+                "bytesSynced": 0,
+                "recordsSynced": 0,
+            }
+        }
+    )
+    return airbyte_base_job_status_response
+
+
+@pytest.fixture
 def airbyte_job_status_not_found_response():
     return {
         "id": "string",
@@ -379,6 +400,65 @@ def mock_cancelled_connection_sync_calls(
         url=f"{base_airbyte_url}/jobs/get/",
         json={"id": airbyte_get_failed_job_status_response["job"]["id"]},
     ).mock(return_value=Response(200, json=airbyte_get_failed_job_status_response))
+
+
+@pytest.fixture
+def mock_incomplete_connection_sync_calls(
+    respx_mock,
+    base_airbyte_url,
+    airbyte_good_health_check_response,
+    airbyte_get_connection_response_json,
+    airbyte_trigger_sync_response,
+    airbyte_get_incomplete_job_status_response,
+):
+    respx_mock.get(url=f"{base_airbyte_url}/health/").mock(
+        return_value=Response(200, json=airbyte_good_health_check_response)
+    )
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/connections/get/",
+        json={"connectionId": airbyte_get_connection_response_json["connectionId"]},
+    ).mock(return_value=Response(200, json=airbyte_get_connection_response_json))
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/connections/sync/",
+        json={"connectionId": airbyte_trigger_sync_response["connectionId"]},
+    ).mock(return_value=Response(200, json=airbyte_trigger_sync_response))
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/jobs/get/",
+        json={"id": airbyte_get_incomplete_job_status_response["job"]["id"]},
+    ).mock(return_value=Response(200, json=airbyte_get_incomplete_job_status_response))
+
+
+@pytest.fixture
+def mock_never_finishing_connection_sync_calls(
+    respx_mock,
+    base_airbyte_url,
+    airbyte_good_health_check_response,
+    airbyte_get_connection_response_json,
+    airbyte_trigger_sync_response,
+    airbyte_get_pending_job_status_response,
+):
+    """Mocks a sync whose job never leaves a non-terminal status."""
+    respx_mock.get(url=f"{base_airbyte_url}/health/").mock(
+        return_value=Response(200, json=airbyte_good_health_check_response)
+    )
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/connections/get/",
+        json={"connectionId": airbyte_get_connection_response_json["connectionId"]},
+    ).mock(return_value=Response(200, json=airbyte_get_connection_response_json))
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/connections/sync/",
+        json={"connectionId": airbyte_trigger_sync_response["connectionId"]},
+    ).mock(return_value=Response(200, json=airbyte_trigger_sync_response))
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/jobs/get/",
+        json={"id": airbyte_get_pending_job_status_response["job"]["id"]},
+    ).mock(return_value=Response(200, json=airbyte_get_pending_job_status_response))
 
 
 @pytest.fixture
