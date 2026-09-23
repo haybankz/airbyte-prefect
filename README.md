@@ -3,9 +3,9 @@
 <p align="center">
     <a href="https://pypi.python.org/pypi/airbyte-prefect/" alt="PyPI version">
         <img alt="PyPI" src="https://img.shields.io/pypi/v/airbyte-prefect?color=0052FF&labelColor=090422"></a>
-    <a href="https://github.com/haybankz/airbyte-prefect/" alt="Stars">
+    <a href="https://github.com/haybankz/airbyte-prefect/" alt="Downloads per month">
         <img src="https://static.pepy.tech/badge/airbyte-prefect/month" /></a>
-    <a href="https://pepy.tech/badge/airbyte-prefect/" alt="Downloads">
+    <a href="https://pepy.tech/badge/airbyte-prefect/" alt="Total downloads">
         <img src="https://static.pepy.tech/badge/airbyte-prefect" /></a>
 </p>
 
