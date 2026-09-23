@@ -13,6 +13,18 @@ project's history.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## 1.1.0
+
+Released on September 23, 2026.
+
+### Added
+
 - `max_wait_seconds` on `AirbyteConnection` and on the `trigger_sync` task, bounding how
   long a sync is polled before `AirbyteSyncJobTimeout` is raised. Defaults to `None`,
   which waits indefinitely as before - [#16](https://github.com/haybankz/airbyte-prefect/pull/16)
