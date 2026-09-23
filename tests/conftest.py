@@ -1,5 +1,4 @@
 import pytest
-import respx
 from httpx import Response
 from prefect.testing.utilities import prefect_test_harness
 
@@ -14,6 +13,20 @@ def prefect_db():
     """
     with prefect_test_harness():
         yield
+
+
+@pytest.fixture
+def respx_mock(respx_mock):
+    """
+    Let calls to Prefect's ephemeral API through.
+
+    respx intercepts every httpx request, including the ones the Prefect
+    client makes to the temporary server started by `prefect_test_harness`.
+    Airbyte is mocked on `localhost`, so passing `127.0.0.1` through leaves
+    those routes untouched.
+    """
+    respx_mock.route(host="127.0.0.1").pass_through()
+    return respx_mock
 
 
 @pytest.fixture
