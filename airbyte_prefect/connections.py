@@ -3,6 +3,7 @@
 import uuid
 from asyncio import sleep
 from datetime import datetime
+from enum import Enum
 from time import monotonic
 from typing import Any, Dict, Optional
 from warnings import warn
@@ -11,7 +12,6 @@ from prefect import get_run_logger, task
 from prefect.blocks.abstract import JobBlock, JobRun
 from prefect.utilities.asyncutils import sync_compatible
 from pydantic import BaseModel, Field
-from typing_extensions import Literal
 
 from airbyte_prefect import exceptions as err
 from airbyte_prefect.server import AirbyteServer
@@ -21,29 +21,61 @@ CONNECTION_STATUS_ACTIVE = "active"
 CONNECTION_STATUS_INACTIVE = "inactive"
 CONNECTION_STATUS_DEPRECATED = "deprecated"
 
-# Job statuses
-JOB_STATUS_CANCELLED = "cancelled"
-JOB_STATUS_FAILED = "failed"
-JOB_STATUS_INCOMPLETE = "incomplete"
-JOB_STATUS_PENDING = "pending"
-JOB_STATUS_RUNNING = "running"
-JOB_STATUS_SUCCEEDED = "succeeded"
+
+class JobStatus(str, Enum):
+    """The statuses Airbyte reports for a sync job."""
+
+    CANCELLED = "cancelled"
+    FAILED = "failed"
+    INCOMPLETE = "incomplete"
+    PENDING = "pending"
+    RUNNING = "running"
+    SUCCEEDED = "succeeded"
+
+    # Without this, str() and f-strings render "JobStatus.SUCCEEDED" rather than
+    # "succeeded", which would change every log line and any caller interpolating
+    # `AirbyteSyncResult.job_status`.
+    __str__ = str.__str__
+
+
+# Job statuses, kept as names so existing imports and comparisons keep working.
+JOB_STATUS_CANCELLED = JobStatus.CANCELLED
+JOB_STATUS_FAILED = JobStatus.FAILED
+JOB_STATUS_INCOMPLETE = JobStatus.INCOMPLETE
+JOB_STATUS_PENDING = JobStatus.PENDING
+JOB_STATUS_RUNNING = JobStatus.RUNNING
+JOB_STATUS_SUCCEEDED = JobStatus.SUCCEEDED
 
 # Statuses Airbyte will not move a job out of. `incomplete` is terminal: the job
 # finished, but at least one attempt did not succeed.
 terminal_job_statuses = {
-    JOB_STATUS_CANCELLED,
-    JOB_STATUS_FAILED,
-    JOB_STATUS_INCOMPLETE,
-    JOB_STATUS_SUCCEEDED,
+    JobStatus.CANCELLED,
+    JobStatus.FAILED,
+    JobStatus.INCOMPLETE,
+    JobStatus.SUCCEEDED,
 }
 
 # Terminal statuses that mean the sync did not succeed.
 unsuccessful_job_statuses = {
-    JOB_STATUS_CANCELLED,
-    JOB_STATUS_FAILED,
-    JOB_STATUS_INCOMPLETE,
+    JobStatus.CANCELLED,
+    JobStatus.FAILED,
+    JobStatus.INCOMPLETE,
 }
+
+
+def _records_synced_from(job_info: Dict[str, Any]) -> int:
+    """Records synced according to the most recent attempt in a job payload.
+
+    Args:
+        job_info: The full API response for an Airbyte job.
+
+    Returns:
+        The record count of the latest attempt, or 0 if no attempt is recorded yet.
+    """
+    attempts = job_info.get("attempts") or []
+    if not attempts:
+        return 0
+    return attempts[-1]["attempt"].get("recordsSynced", 0)
 
 
 @task
@@ -225,7 +257,7 @@ class AirbyteSyncResult(BaseModel):
     """Model representing a result from an `AirbyteSync` job run."""
 
     created_at: datetime
-    job_status: Literal["succeeded", "failed", "pending", "cancelled"]
+    job_status: JobStatus
     job_id: int
     records_synced: int
     updated_at: datetime
@@ -271,9 +303,7 @@ class AirbyteSync(JobRun):
 
                 job_status = job_info["job"]["status"]
 
-                self._records_synced = job_info["attempts"][-1]["attempt"].get(
-                    "recordsSynced", 0
-                )
+                self._records_synced = _records_synced_from(job_info)
 
                 # pending┃running┃incomplete┃failed┃succeeded┃cancelled
                 if job_status == JOB_STATUS_SUCCEEDED:
@@ -308,7 +338,7 @@ class AirbyteSync(JobRun):
                 created_at=job_created_at,
                 job_id=self.job_id,
                 job_status=job_status,
-                records_synced=self._records_synced,
+                records_synced=_records_synced_from(job_info),
                 updated_at=job_updated_at,
             )
 

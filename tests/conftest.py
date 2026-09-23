@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import pytest
 from httpx import Response
 from prefect.testing.utilities import prefect_test_harness
@@ -232,6 +234,34 @@ def airbyte_get_incomplete_job_status_response(
 
 
 @pytest.fixture
+def airbyte_get_running_job_status_response(airbyte_base_job_status_response) -> dict:
+    airbyte_base_job_status_response["job"]["status"] = "running"
+    airbyte_base_job_status_response["attempts"].append(
+        {
+            "attempt": {
+                "id": 0,
+                "status": "running",
+                "createdAt": 0,
+                "updatedAt": 0,
+                "endedAt": 0,
+                "bytesSynced": 0,
+                "recordsSynced": 17,
+            }
+        }
+    )
+    return airbyte_base_job_status_response
+
+
+@pytest.fixture
+def airbyte_get_job_status_response_without_attempts(
+    airbyte_base_job_status_response,
+) -> dict:
+    """A job Airbyte has accepted but not yet recorded an attempt for."""
+    airbyte_base_job_status_response["job"]["status"] = "running"
+    return airbyte_base_job_status_response
+
+
+@pytest.fixture
 def airbyte_job_status_not_found_response():
     return {
         "id": "string",
@@ -459,6 +489,142 @@ def mock_never_finishing_connection_sync_calls(
         url=f"{base_airbyte_url}/jobs/get/",
         json={"id": airbyte_get_pending_job_status_response["job"]["id"]},
     ).mock(return_value=Response(200, json=airbyte_get_pending_job_status_response))
+
+
+def _mock_trigger_calls(
+    respx_mock,
+    base_airbyte_url,
+    health_response,
+    connection_response,
+    trigger_response,
+):
+    """Mocks everything a sync needs up to and including `connections/sync`."""
+    respx_mock.get(url=f"{base_airbyte_url}/health/").mock(
+        return_value=Response(200, json=health_response)
+    )
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/connections/get/",
+        json={"connectionId": connection_response["connectionId"]},
+    ).mock(return_value=Response(200, json=connection_response))
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/connections/sync/",
+        json={"connectionId": trigger_response["connectionId"]},
+    ).mock(return_value=Response(200, json=trigger_response))
+
+
+def _mock_sync_calls_returning(
+    respx_mock,
+    base_airbyte_url,
+    health_response,
+    connection_response,
+    trigger_response,
+    job_status_response,
+):
+    """Mocks a whole sync, with `jobs/get` answering with `job_status_response`."""
+    _mock_trigger_calls(
+        respx_mock,
+        base_airbyte_url,
+        health_response,
+        connection_response,
+        trigger_response,
+    )
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/jobs/get/",
+        json={"id": job_status_response["job"]["id"]},
+    ).mock(return_value=Response(200, json=job_status_response))
+
+
+@pytest.fixture
+def mock_running_connection_sync_calls(
+    respx_mock,
+    base_airbyte_url,
+    airbyte_good_health_check_response,
+    airbyte_get_connection_response_json,
+    airbyte_trigger_sync_response,
+    airbyte_get_running_job_status_response,
+):
+    _mock_sync_calls_returning(
+        respx_mock,
+        base_airbyte_url,
+        airbyte_good_health_check_response,
+        airbyte_get_connection_response_json,
+        airbyte_trigger_sync_response,
+        airbyte_get_running_job_status_response,
+    )
+
+
+@pytest.fixture
+def mock_sync_calls_without_attempts(
+    respx_mock,
+    base_airbyte_url,
+    airbyte_good_health_check_response,
+    airbyte_get_connection_response_json,
+    airbyte_trigger_sync_response,
+    airbyte_get_job_status_response_without_attempts,
+):
+    _mock_sync_calls_returning(
+        respx_mock,
+        base_airbyte_url,
+        airbyte_good_health_check_response,
+        airbyte_get_connection_response_json,
+        airbyte_trigger_sync_response,
+        airbyte_get_job_status_response_without_attempts,
+    )
+
+
+@pytest.fixture
+def mock_sync_calls_with_attempts_appearing_late(
+    respx_mock,
+    base_airbyte_url,
+    airbyte_good_health_check_response,
+    airbyte_get_connection_response_json,
+    airbyte_trigger_sync_response,
+    airbyte_base_job_status_response,
+):
+    """Airbyte answers the first poll before recording an attempt, then completes.
+
+    `airbyte_base_job_status_response` is function scoped, so both payloads are
+    deep copied rather than derived from the shared dict.
+    """
+    no_attempt_yet = deepcopy(airbyte_base_job_status_response)
+    no_attempt_yet["job"]["status"] = "running"
+
+    finished = deepcopy(airbyte_base_job_status_response)
+    finished["job"]["status"] = "succeeded"
+    finished["attempts"] = [
+        {
+            "attempt": {
+                "id": 0,
+                "status": "succeeded",
+                "createdAt": 0,
+                "updatedAt": 0,
+                "endedAt": 0,
+                "bytesSynced": 0,
+                "recordsSynced": 17,
+            }
+        }
+    ]
+
+    _mock_trigger_calls(
+        respx_mock,
+        base_airbyte_url,
+        airbyte_good_health_check_response,
+        airbyte_get_connection_response_json,
+        airbyte_trigger_sync_response,
+    )
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/jobs/get/",
+        json={"id": airbyte_base_job_status_response["job"]["id"]},
+    ).mock(
+        side_effect=[
+            Response(200, json=no_attempt_yet),
+            Response(200, json=finished),
+        ]
+    )
 
 
 @pytest.fixture
