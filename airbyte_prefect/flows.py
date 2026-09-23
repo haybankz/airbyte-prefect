@@ -1,6 +1,6 @@
 """Flows for interacting with Airbyte."""
 
-from prefect import flow, task
+from prefect import flow
 
 from airbyte_prefect.connections import AirbyteConnection, AirbyteSyncResult
 
@@ -9,7 +9,7 @@ from airbyte_prefect.connections import AirbyteConnection, AirbyteSyncResult
 async def run_connection_sync(
     airbyte_connection: AirbyteConnection,
 ) -> AirbyteSyncResult:
-    """A flow that triggers a sync of an Airbyte connection and waits for it to complete.
+    """Trigger a sync of an Airbyte connection and wait for it to complete.
 
     Args:
         airbyte_connection: `AirbyteConnection` representing the Airbyte connection to

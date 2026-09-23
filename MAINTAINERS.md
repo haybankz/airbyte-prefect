@@ -1,4 +1,4 @@
-# prefect-airbyte
+# airbyte-prefect
 
 Welcome to your new Prefect collection! Feel free to modify this README to fit the needs of your collection!
 
@@ -74,7 +74,7 @@ This collection has been setup to with [mkdocs](https://www.mkdocs.org/) for aut
 To add a new page for a module in your collection, create a new markdown file in the `docs` directory and add that file to the `nav` section of `mkdocs.yml`. If you want to automatically generate documentation based on the docstrings and signatures of the contents of the module with `mkdocstrings`, add a line to the new markdown file in the following format:
 
 ```markdown
-::: prefect_airbyte.{module_name}
+::: airbyte_prefect.{module_name}
 ```
 
 You can also refer to the `flows.md` and `tasks.md` files included in your generated project as examples.

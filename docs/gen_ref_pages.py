@@ -11,7 +11,9 @@ from prefect.blocks.core import Block
 from prefect.utilities.dispatch import get_registry_for_type
 from prefect.utilities.importtools import to_qualified_name
 
-COLLECTION_SLUG = "prefect_airbyte"
+import airbyte_prefect  # noqa: F401  imported so its Blocks register themselves
+
+COLLECTION_SLUG = "airbyte_prefect"
 
 
 def find_module_blocks():
@@ -34,11 +36,9 @@ def find_module_blocks():
 def insert_blocks_catalog(generated_file):
     module_blocks = find_module_blocks()
     generated_file.write("## Blocks Catalog\n")
-    generated_file.write(
-        dedent(
-            f"""
+    generated_file.write(dedent(f"""
             Below is a list of Blocks available for registration in
-            `prefect-airbyte`.
+            `airbyte-prefect`.
 
             To register blocks in this module to
             [view and edit them](https://orion-docs.prefect.io/ui/blocks/)
@@ -46,9 +46,7 @@ def insert_blocks_catalog(generated_file):
             ```bash
             prefect block register -m {COLLECTION_SLUG}
             ```
-            """
-        )
-    )
+            """))
     generated_file.write(
         "Note, to use the `load` method on Blocks, you must already have a block document "  # noqa
         "[saved through code](https://orion-docs.prefect.io/concepts/blocks/#saving-blocks) "  # noqa
@@ -62,9 +60,7 @@ def insert_blocks_catalog(generated_file):
             generated_file.write(
                 f"**[{block_name}][{COLLECTION_SLUG}.{module_path}.{block_name}]**\n"
             )
-        generated_file.write(
-            dedent(
-                f"""
+        generated_file.write(dedent(f"""
                 To load the {block_name}:
                 ```python
                 from prefect import flow
@@ -76,9 +72,7 @@ def insert_blocks_catalog(generated_file):
 
                 my_flow()
                 ```
-                """
-            )
-        )
+                """))
 
 
 readme_path = Path("README.md")

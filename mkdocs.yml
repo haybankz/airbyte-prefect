@@ -1,6 +1,6 @@
-site_name: prefect-airbyte
-site_url: https://PrefectHQ.github.io/prefect-airbyte
-repo_url: https://github.com/PrefectHQ/prefect-airbyte
+site_name: airbyte-prefect
+site_url: https://haybankz.github.io/airbyte-prefect
+repo_url: https://github.com/haybankz/airbyte-prefect
 edit_uri: edit/main/docs/
 theme:
   name: material
@@ -43,7 +43,7 @@ plugins:
             show_signature: False
             heading_level: 1
 watch:
-  - prefect_airbyte/
+  - airbyte_prefect/
   - README.md
 nav:
     - Home: index.md
@@ -73,6 +73,3 @@ extra:
           link: https://hub.docker.com/r/prefecthq/prefect/
         - icon: fontawesome/brands/python
           link: https://pypi.org/project/prefect/
-    analytics:
-        provider: google
-        property: G-8CSMBCQDKN

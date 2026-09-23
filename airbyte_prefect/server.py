@@ -29,8 +29,10 @@ class AirbyteServer(Block):
 
     _block_type_name = "Airbyte Server"
     _block_type_slug = "airbyte-server"
-    _logo_url = "https://cdn.sanity.io/images/3ugk85nk/production/7f50097d1915fe75b0ee84c951c742a83d3c53cb-250x250.png"  # noqa
-    _documentation_url = "https://github.com/haybankz/airbyte-prefect#airbyteserver"  # noqa
+    _logo_url = "https://avatars.githubusercontent.com/u/59758427?s=250&v=4"
+    _documentation_url = (
+        "https://github.com/haybankz/airbyte-prefect#airbyteserver"  # noqa
+    )
 
     username: str = Field(
         default="airbyte",

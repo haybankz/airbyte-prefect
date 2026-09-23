@@ -1,1 +1,1 @@
-::: prefect_airbyte.connections
+::: airbyte_prefect.connections

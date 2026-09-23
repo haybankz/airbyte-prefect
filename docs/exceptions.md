@@ -1,1 +1,1 @@
-::: prefect_airbyte.exceptions
+::: airbyte_prefect.exceptions

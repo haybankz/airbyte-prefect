@@ -1,1 +1,1 @@
-::: prefect_airbyte.client
+::: airbyte_prefect.client

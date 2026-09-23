@@ -1,4 +1,5 @@
 """Client for interacting with Airbyte instance"""
+
 import logging
 from typing import Any, Dict, Tuple
 from warnings import warn

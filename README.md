@@ -4,21 +4,20 @@
     <a href="https://pypi.python.org/pypi/airbyte-prefect/" alt="PyPI version">
         <img alt="PyPI" src="https://img.shields.io/pypi/v/airbyte-prefect?color=0052FF&labelColor=090422"></a>
     <a href="https://github.com/haybankz/airbyte-prefect/" alt="Stars">
-        <img src="https://img.shields.io/github/stars/haybankz/airbyte-prefect?color=0052FF&labelColor=090422" /></a>
+        <img src="https://static.pepy.tech/badge/airbyte-prefect/month?color=0052FF&labelColor=090422" /></a>
     <a href="https://pepy.tech/badge/airbyte-prefect/" alt="Downloads">
         <img src="https://img.shields.io/pypi/dm/airbyte-prefect?color=0052FF&labelColor=090422" /></a>
-    <a href="https://github.com/haybankz/airbyte-prefect/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/haybankz/airbyte-prefect?color=0052FF&labelColor=090422" /></a>
-    <br>
     <a href="https://prefect-community.slack.com" alt="Slack">
         <img src="https://img.shields.io/badge/slack-join_community-red.svg?color=0052FF&labelColor=090422&logo=slack" /></a>
-    <a href="https://discourse.prefect.io/" alt="Discourse">
-        <img src="https://img.shields.io/badge/discourse-browse_forum-red.svg?color=0052FF&labelColor=090422&logo=discourse" /></a>
 </p>
 
 ## Welcome!
 
 `airbyte-prefect` is a collection of prebuilt Prefect tasks and flows that can be used to quickly construct Prefect flows to interact with [Airbyte](https://airbyte.io/).
+
+> **Note:** `airbyte-prefect` is a port of [`prefect-airbyte`](https://github.com/PrefectHQ/prefect-airbyte),
+> the original Prefect 2 collection by [PrefectHQ](https://github.com/PrefectHQ), updated to work with
+> Prefect 3. Credit for the original design and implementation goes to its authors and contributors.
 
 ## Getting Started
 
@@ -180,6 +179,11 @@ If you encounter and bugs while using `airbyte-prefect`, feel free to open an is
 If you have any questions or issues while using `airbyte-prefect`, you can find help in either the [Prefect Discourse forum](https://discourse.prefect.io/) or the [Prefect Slack community](https://prefect.io/slack)
 
 Feel free to star or watch [`airbyte-prefect`](https://github.com/haybankz/airbyte-prefect) for updates too!
+
+### Acknowledgements
+
+This project is derived from [`prefect-airbyte`](https://github.com/PrefectHQ/prefect-airbyte) by PrefectHQ,
+released under the Apache 2.0 License.
 
 ## Contribute
 
