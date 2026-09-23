@@ -7,11 +7,15 @@
         <img src="https://static.pepy.tech/badge/airbyte-prefect/month" /></a>
     <a href="https://pepy.tech/badge/airbyte-prefect/" alt="Total downloads">
         <img src="https://static.pepy.tech/badge/airbyte-prefect" /></a>
+    <a href="https://haybankz.github.io/airbyte-prefect" alt="Documentation">
+        <img src="https://img.shields.io/badge/docs-airbyte--prefect-blue" /></a>
 </p>
 
 ## Welcome!
 
 `airbyte-prefect` is a collection of prebuilt Prefect tasks and flows that can be used to quickly construct Prefect flows to interact with [Airbyte](https://airbyte.io/).
+
+📚 **[Documentation](https://haybankz.github.io/airbyte-prefect)** — API reference for every task, flow and block, generated from the source.
 
 > **Note:** `airbyte-prefect` is a port of [`prefect-airbyte`](https://github.com/PrefectHQ/prefect-airbyte),
 > the original Prefect 2 collection by [PrefectHQ](https://github.com/PrefectHQ), updated to work with
@@ -38,7 +42,7 @@ Install `airbyte-prefect`
 pip install airbyte-prefect
 ```
 
-For available blocks and their setup instructions, see the documentation in this repository.
+For available blocks and their setup instructions, see the [Blocks Catalog](https://haybankz.github.io/airbyte-prefect/#blocks-catalog).
 
 ### Examples
 #### Create an `AirbyteServer` block and save it
@@ -172,7 +176,9 @@ For more tips on how to use tasks and flows in a Collection, check out [Using Co
 
 ## Resources
 
-If you encounter and bugs while using `airbyte-prefect`, feel free to open an issue in the [airbyte-prefect](https://github.com/haybankz/airbyte-prefect) repository.
+The API reference is published at [haybankz.github.io/airbyte-prefect](https://haybankz.github.io/airbyte-prefect), built from the docstrings in this repository on each release.
+
+If you encounter any bugs while using `airbyte-prefect`, feel free to open an issue in the [airbyte-prefect](https://github.com/haybankz/airbyte-prefect) repository.
 
 If you have any questions or issues while using `airbyte-prefect`, you can find help in either the [Prefect Discourse forum](https://discourse.prefect.io/) or the [Prefect Slack community](https://prefect.io/slack)
 
