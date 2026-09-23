@@ -1,4 +1,5 @@
 """Tasks for connecting to Airbyte and triggering connection syncs"""
+
 import uuid
 from asyncio import sleep
 from datetime import datetime
@@ -125,10 +126,8 @@ async def trigger_sync(
     try:
         uuid.UUID(connection_id)
     except (TypeError, ValueError):
-        raise ValueError(
-            "Parameter `connection_id` *must* be a valid UUID \
-            i.e. 32 hex characters, including hyphens."
-        )
+        raise ValueError("Parameter `connection_id` *must* be a valid UUID \
+            i.e. 32 hex characters, including hyphens.")
 
     async with airbyte_server.get_client(
         logger=logger, timeout=timeout
@@ -367,7 +366,10 @@ class AirbyteConnection(JobBlock):
             )
 
             if connection_status == CONNECTION_STATUS_ACTIVE:
-                (job_id, _,) = await airbyte_client.trigger_manual_sync_connection(
+                (
+                    job_id,
+                    _,
+                ) = await airbyte_client.trigger_manual_sync_connection(
                     str_connection_id
                 )
 

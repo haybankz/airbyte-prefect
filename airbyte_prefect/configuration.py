@@ -1,4 +1,5 @@
 """Tasks for updating and fetching Airbyte configurations"""
+
 from typing import Optional
 from warnings import warn
 
@@ -15,7 +16,6 @@ async def export_configuration(
     airbyte_api_version: Optional[str] = None,
     timeout: int = 5,
 ) -> bytes:
-
     """
     Prefect Task that exports an Airbyte configuration via
     `{airbyte_server_host}/api/v1/deployment/export`.
