@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://haybankz.github.io/airbyte-prefect/sitemap.xml

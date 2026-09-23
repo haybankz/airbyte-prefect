@@ -13,7 +13,17 @@ project's history.
 
 ### Added
 
+- `robots.txt` on the documentation site, pointing crawlers at the generated
+  `sitemap.xml` - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
+- `Documentation`, `Source`, `Changelog` and `Issue Tracker` entries in the package
+  metadata, so PyPI links to the API reference and this file - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
+
 ### Changed
+
+- The documentation site now carries a description and author, and the home page its own
+  title. It previously served no `description` meta tag at all - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
+- Broader keywords and classifiers on the package, including `Development Status` and
+  `Operating System` - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
 
 ### Fixed
 
