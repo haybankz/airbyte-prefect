@@ -13,6 +13,18 @@ project's history.
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## 1.2.0
+
+Released on September 23, 2026.
+
+### Added
+
 - `JobStatus`, an enum of the statuses Airbyte reports for a sync job. The
   `JOB_STATUS_*` names remain as aliases - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
 - Published API reference at <https://haybankz.github.io/airbyte-prefect>, built from the
@@ -35,8 +47,6 @@ project's history.
 - `AirbyteSync.fetch_result()` reports the record count from the job payload it fetches,
   rather than from state that only `wait_for_completion()` populates. Called on its own
   it previously reported `0` regardless of what the job had moved - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
-
-### Removed
 
 ## 1.1.0
 
