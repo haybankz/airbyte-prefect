@@ -16,7 +16,7 @@ setup(
     description="Airbyte integration for Prefect",
     license="Apache License 2.0",
     author="Abeeb Oladele",
-    author_email="oladele2abeeb@gmail.com",  # TODO: Update with your actual email
+    author_email="oladele2abeeb@gmail.com",
     keywords="prefect airbyte data integration",
     url="https://github.com/haybankz/airbyte-prefect",
     long_description=readme,
