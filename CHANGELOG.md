@@ -13,9 +13,23 @@ project's history.
 
 ### Added
 
+- `JobStatus`, an enum of the statuses Airbyte reports for a sync job. The
+  `JOB_STATUS_*` names remain as aliases - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
+
 ### Changed
 
+- `AirbyteSyncResult.job_status` is typed `JobStatus` rather than a `Literal` listing
+  four of Airbyte's six statuses. It still compares equal to, and serialises as, the
+  plain status string - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
+
 ### Fixed
+
+- `AirbyteSync.fetch_result()` no longer raises a `ValidationError` for a job that is
+  `running` or that finished `incomplete`. `JobRun` permits calling it without
+  `wait_for_completion()` first, and both statuses were missing from the result model - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
+- `AirbyteSync.fetch_result()` reports the record count from the job payload it fetches,
+  rather than from state that only `wait_for_completion()` populates. Called on its own
+  it previously reported `0` regardless of what the job had moved - [#18](https://github.com/haybankz/airbyte-prefect/pull/18)
 
 ### Removed
 
