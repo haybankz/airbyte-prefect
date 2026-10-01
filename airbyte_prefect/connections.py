@@ -16,10 +16,23 @@ from pydantic import BaseModel, Field
 from airbyte_prefect import exceptions as err
 from airbyte_prefect.server import AirbyteServer
 
-# Connection statuses
-CONNECTION_STATUS_ACTIVE = "active"
-CONNECTION_STATUS_INACTIVE = "inactive"
-CONNECTION_STATUS_DEPRECATED = "deprecated"
+
+class ConnectionStatus(str, Enum):
+    """The statuses Airbyte reports for a connection."""
+
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+    DEPRECATED = "deprecated"
+
+    # As on JobStatus: without this, str() and f-strings render
+    # "ConnectionStatus.ACTIVE" rather than "active".
+    __str__ = str.__str__
+
+
+# Connection statuses, kept as names so existing imports and comparisons keep working.
+CONNECTION_STATUS_ACTIVE = ConnectionStatus.ACTIVE
+CONNECTION_STATUS_INACTIVE = ConnectionStatus.INACTIVE
+CONNECTION_STATUS_DEPRECATED = ConnectionStatus.DEPRECATED
 
 
 class JobStatus(str, Enum):
@@ -127,7 +140,9 @@ async def trigger_sync(
         AirbyteSyncJobTimeout: If `max_wait_seconds` elapses before the job
             reaches a terminal status.
         AirbyteConnectionInactiveException: If a given connection is inactive.
-        AirbyeConnectionDeprecatedException: If a given connection is deprecated.
+        AirbyteConnectionDeprecatedException: If a given connection is deprecated.
+        AirbyteConnectionUnknownStatusException: If Airbyte reports a connection
+            status this version does not recognise.
     Returns:
         Job metadata, including the connection ID and final status of the sync.
     Examples:
@@ -245,8 +260,18 @@ async def trigger_sync(
             )
         elif connection_status == CONNECTION_STATUS_DEPRECATED:
             logger.error(f"Connection {connection_id} is deprecated.")
-            raise err.AirbyeConnectionDeprecatedException(
+            raise err.AirbyteConnectionDeprecatedException(
                 f"Connection {connection_id} is deprecated."
+            )
+        else:
+            logger.error(
+                f"Connection {connection_id} reported unknown status "
+                f"{connection_status!r}."
+            )
+            raise err.AirbyteConnectionUnknownStatusException(
+                f"Connection {connection_id} reported unknown status "
+                f"{connection_status!r}. Expected one of: "
+                f"{', '.join(sorted(ConnectionStatus))}."
             )
 
 
@@ -430,6 +455,8 @@ class AirbyteConnection(JobBlock):
         Raises:
             AirbyteConnectionInactiveException: If the connection is inactive.
             AirbyteConnectionDeprecatedException: If the connection is deprecated.
+            AirbyteConnectionUnknownStatusException: If Airbyte reports a connection
+                status this version does not recognise.
         """
         str_connection_id = str(self.connection_id)
 
@@ -466,6 +493,12 @@ class AirbyteConnection(JobBlock):
                     "in your Airbyte instance."
                 )
             elif connection_status == CONNECTION_STATUS_DEPRECATED:
-                raise err.AirbyeConnectionDeprecatedException(
+                raise err.AirbyteConnectionDeprecatedException(
                     f"Connection {self.connection_id!r} is deprecated."
+                )
+            else:
+                raise err.AirbyteConnectionUnknownStatusException(
+                    f"Connection {self.connection_id!r} reported unknown status "
+                    f"{connection_status!r}. Expected one of: "
+                    f"{', '.join(sorted(ConnectionStatus))}."
                 )

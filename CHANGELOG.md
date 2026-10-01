@@ -17,6 +17,10 @@ project's history.
   `sitemap.xml` - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
 - `Documentation`, `Source`, `Changelog` and `Issue Tracker` entries in the package
   metadata, so PyPI links to the API reference and this file - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
+- `ConnectionStatus`, an enum of the statuses Airbyte reports for a connection. The
+  `CONNECTION_STATUS_*` names remain as aliases - [#22](https://github.com/haybankz/airbyte-prefect/pull/22)
+- `AirbyteConnectionUnknownStatusException`, raised when Airbyte reports a connection
+  status this version does not recognise - [#22](https://github.com/haybankz/airbyte-prefect/pull/22)
 
 ### Changed
 
@@ -24,8 +28,17 @@ project's history.
   title. It previously served no `description` meta tag at all - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
 - Broader keywords and classifiers on the package, including `Development Status` and
   `Operating System` - [#21](https://github.com/haybankz/airbyte-prefect/pull/21)
+- `AirbyeConnectionDeprecatedException` is spelled
+  `AirbyteConnectionDeprecatedException`. The misspelled name is kept as an alias, so
+  existing `except` clauses keep working - [#22](https://github.com/haybankz/airbyte-prefect/pull/22)
 
 ### Fixed
+
+- `trigger_sync` and `AirbyteConnection.trigger()` no longer return `None` for a
+  connection status outside `active`, `inactive` and `deprecated`. The task completed
+  successfully having done nothing, and the block returned `None` where an `AirbyteSync`
+  was declared, so `run_connection_sync` failed with `AttributeError: 'NoneType' object
+  has no attribute 'wait_for_completion'` - [#22](https://github.com/haybankz/airbyte-prefect/pull/22)
 
 ### Removed
 

@@ -646,6 +646,61 @@ def mock_inactive_sync_calls(
     ).mock(return_value=Response(200, json=airbyte_get_connection_response_json))
 
 
+def _mock_connection_status_calls(
+    respx_mock, base_airbyte_url, health_response, connection_response, status
+):
+    """Mocks health plus `connections/get` answering with `status`."""
+    respx_mock.get(url=f"{base_airbyte_url}/health/").mock(
+        return_value=Response(200, json=health_response)
+    )
+
+    connection_response["status"] = status
+
+    respx_mock.post(
+        url=f"{base_airbyte_url}/connections/get/",
+        json={"connectionId": connection_response["connectionId"]},
+    ).mock(return_value=Response(200, json=connection_response))
+
+
+@pytest.fixture
+def mock_deprecated_sync_calls(
+    respx_mock,
+    base_airbyte_url,
+    airbyte_good_health_check_response,
+    airbyte_get_connection_response_json,
+):
+    _mock_connection_status_calls(
+        respx_mock,
+        base_airbyte_url,
+        airbyte_good_health_check_response,
+        airbyte_get_connection_response_json,
+        "deprecated",
+    )
+
+
+@pytest.fixture
+def unknown_connection_status() -> str:
+    """A status Airbyte does not report today, standing in for one it adds later."""
+    return "archived"
+
+
+@pytest.fixture
+def mock_unknown_status_sync_calls(
+    respx_mock,
+    base_airbyte_url,
+    airbyte_good_health_check_response,
+    airbyte_get_connection_response_json,
+    unknown_connection_status,
+):
+    _mock_connection_status_calls(
+        respx_mock,
+        base_airbyte_url,
+        airbyte_good_health_check_response,
+        airbyte_get_connection_response_json,
+        unknown_connection_status,
+    )
+
+
 @pytest.fixture
 def airbyte_good_export_configuration_response() -> bytes:
     return b""

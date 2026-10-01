@@ -253,3 +253,66 @@ async def test_wait_for_completion_when_the_first_poll_has_no_attempts(
     await sync.wait_for_completion()
 
     assert sync._records_synced == 17
+
+
+async def test_trigger_sync_on_an_unknown_connection_status(
+    mock_unknown_status_sync_calls,
+    airbyte_server,
+    connection_id,
+    unknown_connection_status,
+):
+    """A status outside the three known ones must raise, not return None."""
+    with pytest.raises(
+        err.AirbyteConnectionUnknownStatusException, match=unknown_connection_status
+    ):
+        await example_trigger_sync_flow(
+            airbyte_server=airbyte_server, connection_id=connection_id
+        )
+
+
+async def test_trigger_on_an_unknown_connection_status(
+    mock_unknown_status_sync_calls,
+    airbyte_server,
+    connection_id,
+    unknown_connection_status,
+):
+    """`AirbyteConnection.trigger()` has the same branch and must raise too."""
+    connection = AirbyteConnection(
+        airbyte_server=airbyte_server, connection_id=connection_id
+    )
+
+    with pytest.raises(
+        err.AirbyteConnectionUnknownStatusException, match=unknown_connection_status
+    ):
+        await connection.trigger()
+
+
+async def test_trigger_sync_on_a_deprecated_connection(
+    mock_deprecated_sync_calls, airbyte_server, connection_id
+):
+    with pytest.raises(err.AirbyteConnectionDeprecatedException, match="deprecated"):
+        await example_trigger_sync_flow(
+            airbyte_server=airbyte_server, connection_id=connection_id
+        )
+
+
+async def test_trigger_on_a_deprecated_connection(
+    mock_deprecated_sync_calls, airbyte_server, connection_id
+):
+    connection = AirbyteConnection(
+        airbyte_server=airbyte_server, connection_id=connection_id
+    )
+
+    with pytest.raises(err.AirbyteConnectionDeprecatedException, match="deprecated"):
+        await connection.trigger()
+
+
+def test_deprecated_exception_keeps_its_misspelled_alias():
+    """The misspelled name must keep catching after the rename.
+
+    Existing `except AirbyeConnectionDeprecatedException` clauses depend on it.
+    """
+    assert (
+        err.AirbyeConnectionDeprecatedException
+        is err.AirbyteConnectionDeprecatedException
+    )
